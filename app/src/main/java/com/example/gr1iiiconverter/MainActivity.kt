@@ -70,17 +70,21 @@ fun UnitConverter(){
         Pair(INCHES, FEET) to 0.0833333
     )
 
-    var InputUnit by remember { mutableStateOf("") }
-    var outputUnit by remember { mutableStateOf("") }
+    var inputUnit by remember { mutableStateOf(CENT) }
+    var outputUnit by remember { mutableStateOf(CENT) }
     var inExpended by remember { mutableStateOf(false)   }
     var outExpended by remember { mutableStateOf(false)   }
 
-    var inputNumber by remember {
-        mutableStateOf("")
+    var inputNumber by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("0")  }
+
+    fun convertUnits(){
+        val inputNumberDouble = inputNumber.toDoubleOrNull() ?: 0.0
+        val key = Pair(inputUnit, outputUnit)
+        val factor: Double = conversionFactors[key] ?: 1.0
+        val resultDouble = inputNumberDouble * factor
+        result = resultDouble.toString()
     }
-
-
-
 
     Column(
         modifier=Modifier.fillMaxSize(),
@@ -91,7 +95,12 @@ fun UnitConverter(){
         
         Spacer(modifier = Modifier.height(20.dp))
         
-        OutlinedTextField(value = "coś", onValueChange = { inputNumber=it })
+        OutlinedTextField(value = inputNumber,
+            onValueChange = {
+                inputNumber=it
+                convertUnits()
+            }
+        )
         
         Spacer(modifier = Modifier.height(20.dp))
         
@@ -103,7 +112,7 @@ fun UnitConverter(){
 
                 }) {
 
-                    Text(text="Select")
+                    Text(text=inputUnit)
                     Icon(imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "arrow")
                 }
@@ -111,18 +120,21 @@ fun UnitConverter(){
                 DropdownMenu(expanded = inExpended, onDismissRequest = { inExpended=false }) {
                     DropdownMenuItem(text = {Text(CENT)},
                                      onClick = {
-                                         InputUnit = CENT
+                                         inputUnit = CENT
                                          inExpended=false
+                                         convertUnits()
                                      })
                     DropdownMenuItem(text = {Text(INCHES)},
                         onClick = {
-                            InputUnit=INCHES
+                            inputUnit=INCHES
                             inExpended=false
+                            convertUnits()
                         })
                     DropdownMenuItem(text = {Text(FEET)},
                         onClick = {
-                            InputUnit=FEET
+                            inputUnit=FEET
                             inExpended=false
+                            convertUnits()
                         })
 
                 }
@@ -136,7 +148,7 @@ fun UnitConverter(){
 
                 }) {
 
-                    Text(text="Select")
+                    Text(text=outputUnit)
                     Icon(imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "arrow")
                 }
@@ -146,16 +158,19 @@ fun UnitConverter(){
                         onClick = {
                             outputUnit=CENT
                             outExpended=false
+                            convertUnits()
                         })
                     DropdownMenuItem(text = {Text(INCHES)},
                         onClick = {
                             outputUnit=INCHES
                             outExpended=false
+                            convertUnits()
                         })
                     DropdownMenuItem(text = {Text(FEET)},
                         onClick = {
                             outputUnit=FEET
                             outExpended=false
+                            convertUnits()
                         })
 
                 }
@@ -165,7 +180,7 @@ fun UnitConverter(){
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text="Result: ")
+        Text(text="Result: $result")
     }
 }
 
