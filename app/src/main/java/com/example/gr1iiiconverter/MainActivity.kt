@@ -70,8 +70,8 @@ fun UnitConverter(){
         Pair(INCHES, FEET) to 0.0833333
     )
 
-    var inputValue by remember { mutableStateOf("") }
-    var outputValue by remember { mutableStateOf("") }
+    var InputUnit by remember { mutableStateOf("") }
+    var outputUnit by remember { mutableStateOf("") }
     var inExpended by remember { mutableStateOf(false)   }
     var outExpended by remember { mutableStateOf(false)   }
 
@@ -111,17 +111,17 @@ fun UnitConverter(){
                 DropdownMenu(expanded = inExpended, onDismissRequest = { inExpended=false }) {
                     DropdownMenuItem(text = {Text(CENT)},
                                      onClick = {
-                                         inputValue = CENT
+                                         InputUnit = CENT
                                          inExpended=false
                                      })
                     DropdownMenuItem(text = {Text(INCHES)},
                         onClick = {
-                            inputValue=INCHES
+                            InputUnit=INCHES
                             inExpended=false
                         })
                     DropdownMenuItem(text = {Text(FEET)},
                         onClick = {
-                            inputValue=FEET
+                            InputUnit=FEET
                             inExpended=false
                         })
 
@@ -144,17 +144,17 @@ fun UnitConverter(){
                 DropdownMenu(expanded = outExpended, onDismissRequest = { outExpended=false }) {
                     DropdownMenuItem(text = {Text(CENT)},
                         onClick = {
-                            outputValue=CENT
+                            outputUnit=CENT
                             outExpended=false
                         })
                     DropdownMenuItem(text = {Text(INCHES)},
                         onClick = {
-                            outputValue=INCHES
+                            outputUnit=INCHES
                             outExpended=false
                         })
                     DropdownMenuItem(text = {Text(FEET)},
                         onClick = {
-                            outputValue=FEET
+                            outputUnit=FEET
                             outExpended=false
                         })
 
